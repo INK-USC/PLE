@@ -1,0 +1,4 @@
+**/eigen-3.2.5/
+*.pyc
+*.DS_Store
+*.o
