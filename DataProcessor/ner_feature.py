@@ -74,7 +74,7 @@ def pipeline(json_file, brown_file, outdir):
     gx = open(outdir+'/train_x.txt', 'w')
     gy = open(outdir+'/train_y.txt', 'w')
     f = open(outdir+'/feature.map', 'w')
-    t = open(outdir+'/label.map', 'w')
+    t = open(outdir+'/type.txt', 'w')
     print 'start train feature generation'
     mention_count = 0
     while reader.has_next():
@@ -206,6 +206,6 @@ if __name__ == "__main__":
     test_json = sys.argv[2]
     brown_file = sys.argv[3]
     outdir = sys.argv[4]
-   # pipeline(train_json, brown_file, outdir)
-   # filter(featurefile=outdir+'/feature.map', trainfile=outdir+'/train_x.txt', featureout=outdir+'/feature_new.map',trainout=outdir+'/train_x_new.txt')
-    pipeline_test(test_json, brown_file, outdir+'/feature_new.map',outdir+'/label.map', outdir)
+    pipeline(train_json, brown_file, outdir)
+    filter(featurefile=outdir+'/feature.map', trainfile=outdir+'/train_x.txt', featureout=outdir+'/feature.txt',trainout=outdir+'/train_x_new.txt')
+    pipeline_test(test_json, brown_file, outdir+'/feature.txt',outdir+'/type.txt', outdir)

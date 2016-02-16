@@ -122,10 +122,10 @@ def prune(indir, outdir, strategy, feature_number, type_number):
     mids = {}
     ground_truth = set()
     count = 0
-    train_y = os.path.join(indir+'/old/train_y.txt')
-    train_x = os.path.join(indir+'/old/train_x_new.txt')
-    test_x = os.path.join(indir+'/old/test_x.txt')
-    test_y = os.path.join(indir+ '/old/test_y.txt')
+    train_y = os.path.join(indir+'/train_y.txt')
+    train_x = os.path.join(indir+'/train_x_new.txt')
+    test_x = os.path.join(indir+'/test_x.txt')
+    test_y = os.path.join(indir+ '/test_y.txt')
     mention_file = os.path.join(outdir+ '/mention.txt')
     mention_type = os.path.join(outdir+ '/mention_type.txt')
     mention_feature = os.path.join(outdir+ '/mention_feature.txt')
@@ -211,9 +211,7 @@ def prune(indir, outdir, strategy, feature_number, type_number):
                     g.write(str(i)+'\t'+str(j)+'\t'+str(temp)+'\n')
 
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 4:
         print('Usage: prune_heuristics.py -INDIR -OUTDIR -STRATEGY -FEATURENUMBER -TYPENUMBER')
         sys.exit(-1)
     prune(sys.argv[1],sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5]))
-    # p = PruneStrategy('min','tmp/figer_supertype.txt','tmp/figer_distribution_per_doc.txt')
-    # print p.pruner("wex/20110513/0/0/5", False, [0,1])
