@@ -36,7 +36,7 @@ class NLPParser(object):
 
 def parse(filename, output):
     with open(filename) as f, open(output, 'w') as g:
-        parser = NLPParser('/srv/data/wenqihe/Experiments/DataProcessor/stanford-corenlp-python/corenlp/stanford-corenlp-full-2015-04-20')
+        parser = NLPParser('DataProcessor/stanford-corenlp-python/corenlp/stanford-corenlp-full-2015-04-20')
         count=0
         for line in f:
             sent = json.loads(line.strip('\r\n'))

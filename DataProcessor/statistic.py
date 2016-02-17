@@ -50,13 +50,4 @@ def supertype(indir):
                             g.write(mm[key1]+'\t'+mm[key2]+'\n')
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print 'Usage:statistic.py -INDIR'
-        exit(1)
-    # generate supertype mapping file
-    supertype(sys.argv[1])
-    # generate type distribution for each document
-    distribution(sys.argv[1])
-
     

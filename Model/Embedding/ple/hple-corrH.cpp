@@ -216,8 +216,8 @@ int main(int argc, char **argv) {
     if ((i = ArgPos((char *)"-lr", argc, argv)) > 0) starting_lr = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-alpha", argc, argv)) > 0) alpha = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
-    sprintf(file_path, "/srv/data/wenqihe/%s/%s/", data, task);
-    sprintf(output_path, "/srv/data/wenqihe/%s/%s/Results/", data, task);
+    sprintf(file_path, "data/%s/%s/no/", data, task);
+    sprintf(output_path, "data/%s/%s/no/Results/", data, task);
     lr = starting_lr;
     TrainModel();
     return 0;
