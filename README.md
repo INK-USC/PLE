@@ -4,6 +4,7 @@ Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding
 ## Publication
 
 * Xiang Ren\*, Wenqi He, Meng Qu, Clare R. Voss, Heng Ji, Jiawei Han, "**[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://arxiv.org/abs/1602.05307)**”
+
 ## Requirements
 
 We will take Ubuntu for example.
