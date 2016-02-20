@@ -172,8 +172,8 @@ int main(int argc, char **argv) {
     if ((i = ArgPos((char *)"-samples", argc, argv)) > 0) samples = atoi(argv[i + 1])*(long long)(1000000);
     if ((i = ArgPos((char *)"-alpha", argc, argv)) > 0) alpha = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
-    sprintf(file_path, "/srv/data/wenqihe/%s/%s/", data, task);
-    sprintf(output_path, "/srv/data/wenqihe/%s/%s/Results/", data, task);
+    sprintf(file_path, "Intermediate/%s/", data);
+    sprintf(output_path, "Results/%s/", data);
     TrainModel();
     return 0;
 }

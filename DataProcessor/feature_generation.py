@@ -14,19 +14,19 @@ def get_number(filename):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print 'Usage:feature_generation.py -DATA -TASK'
+        print 'Usage:feature_generation.py -DATA'
         exit(1)
-    indir = 'data/%s/%s' %(sys.argv[1], sys.argv[2])
-    outdir = indir + '/no'
+    indir = 'Data/%s' % sys.argv[1]
+    outdir = 'Intermediate/%s' % sys.argv[1]
     # NLP parse
     raw_train_json = indir + '/train.json'
     raw_test_json = indir + '/test.json'
-    train_json = indir + '/train_new.json'
-    raw_test_json = indir + '/test_new.json'
+    train_json = outdir + '/train_new.json'
+    test_json = outdir + '/test_new.json'
 
     # Generate features
     parse(raw_train_json, train_json)
-    parse(raw_test_json, raw_test_json)
+    parse(raw_test_json, test_json)
     pipeline(JsonTrain, indir + '/brown', outdir)
     filter(outdir+'/feature.map', outdir+'/train_x.txt', outdir+'/feature.txt', outdir+'/train_x_new.txt')
     pipeline_test(JsonTest, indir + '/brown', outdir+'/feature.txt',outdir+'/type.txt', outdir)

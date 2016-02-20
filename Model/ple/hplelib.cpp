@@ -450,16 +450,16 @@ void line_link::train_miniBatch_sg(real *_error_vec_u, real *_error_vec_v, real 
     Eigen::Map<BLPVector> error_vec_u(_error_vec_u, vector_size);
     Eigen::Map<BLPVector> error_vec_v(_error_vec_v, vector_size);
     
-    // initialize the error vector
-    error_vec_u.setZero();
-    error_vec_v.setZero();
-    
     // for each neighbor node v of node u
     for (unsigned int k = 0; k != graph[u].size(); k++)
     {
         v = graph[u][k].index;
         w = graph[u][k].wei;
         // w = 1.0; // set to unweighted edge
+
+        // initialize the error vector
+        error_vec_u.setZero();
+        error_vec_v.setZero();
         
         // for positive example (u, v)
         f = node_u->vec.row(u) * node_v->vec.row(v).transpose(); // dot product
@@ -559,11 +559,6 @@ void line_link::train_miniBatch_ple(real *_error_vec_u, real lr, real alpha, uns
         node_v->vec.row(neg) -= lr * node_u->vec.row(u);
     }
     node_u->vec.row(u) += lr * error_vec_u;
-
-    // update count
-    node_u->grad_cnt[u]++;
-    node_v->grad_cnt[pos]++;
-    node_v->grad_cnt[neg]++;
 }
 
 // Skip-gram by Block Coordinate Descent

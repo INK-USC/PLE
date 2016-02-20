@@ -11,7 +11,7 @@ mkdir -pv $Results
 DataProcessor/feature_generation.py $Data
 
 ### Train PLE
-Model/Embedding/ple/hple-corrKB -data $Data -mode bcd -size 50 -negatives 10 -iters 50 -threads 20 -lr 0.6 -alpha 0.0001
+Model/ple/hple-corrKB -data $Data -mode bcd -size 50 -negatives 10 -iters 50 -threads 20 -lr 0.6 -alpha 0.0001
 
 ### Clean training labels
 Evaluation/emb_prediction.py $Data hple hete_corrKB topdown dot -100

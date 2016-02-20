@@ -11,7 +11,7 @@ char data[MAX_STRING], task[MAX_STRING];
 char file_path[MAX_STRING], output_path[MAX_STRING], mode;
 int binary = 0, num_threads = 1, vector_size = 100, negative = 5, iters = 10, iter;
 long long node_count_actual;
-std::vector<int> mention_set, feature_set, type_set;
+std::vector<int> mention_set, feature_set;
 real starting_lr = 0.025, alpha = 0.0001;
 real lr;
 
@@ -20,7 +20,39 @@ gsl_rng * gsl_r;
 ransampl_ws* ws;
 
 line_node node_M, node_F, node_Y;
-line_link link_MF, link_MY, link_FY, link_YY;
+line_link link_MF, link_MY, link_FY;
+
+// void *train_miniBatch_thread(void *id)
+// {
+//     unsigned long long next_random = (long long)id;
+//     real *error_vec_u = (real *)calloc(vector_size, sizeof(real));
+//     real *error_vec_v = (real *)calloc(vector_size, sizeof(real));
+//     int node_size = node_M.get_num_nodes(), T = 0;
+//     long long tid = (long long)id;
+//     int begin = node_size / num_threads * tid;
+//     int end = node_size / num_threads * (tid + 1);
+//     if (tid == num_threads) end = node_size;
+    
+//     real lr = starting_lr * (1 - iter / (real)(iters));
+//     for (int k = begin; k != end; k++, T++)
+//     {
+//         if (T % 100 == 0)
+//         {
+//             node_count_actual += 100;
+//             printf("%cMode: %c Epoch: %d/%d Progress: %.3lf%%", 13, mode, iter, iters, node_count_actual / (real)(node_size + 1) / iters * 100);
+//             fflush(stdout);
+//         }
+//         int u = mention_set[k];
+//         link_MF.train_miniBatch_sg(error_vec_u, error_vec_v, lr, next_random, u);
+//         // link_MY.train_miniBatch_sg(error_vec_u, error_vec_v, lr, next_random, u);
+//         link_MY.train_miniBatch_ple(error_vec_u, lr, alpha, next_random, u);
+//     }
+    
+//     free(error_vec_u);
+//     free(error_vec_v);
+//     pthread_exit(NULL);
+// }
+
 
 void *train_BCD_thread(void *id)
 {
@@ -60,7 +92,7 @@ void *train_BCD_thread_F(void *id)
     {
         // if (T % 10000 == 0)
         // {
-        //     node_count_actual += 10000;
+        //     node_count_actual += 100;
         //     printf("%cMode: %c Epoch: %d/%d Progress: %.3lf%%", 13, mode, iter, iters, node_count_actual / (real)(node_size + 1) / iters * 100);
         //     fflush(stdout);
         // }
@@ -70,29 +102,6 @@ void *train_BCD_thread_F(void *id)
     pthread_exit(NULL);
 }
 
-void *train_BCD_thread_Y(void *id)
-{
-    unsigned long long next_random = (long long)id;
-    
-    int node_size = node_Y.get_num_nodes(), T = 0;    
-    long long tid = (long long)id;
-    int begin = node_size / num_threads * tid;
-    int end = node_size / num_threads * (tid + 1);
-    if (tid == num_threads) end = node_size;
-
-    for (int k = begin; k != end; k++, T++)
-    {
-        // if (T % 10000 == 0)
-        // {
-        //     node_count_actual += 10000;
-        //     printf("%cMode: %c Epoch: %d/%d Progress: %.3lf%%", 13, mode, iter, iters, node_count_actual / (real)(node_size + 1) / iters * 100);
-        //     fflush(stdout);
-        // }
-        int u = type_set[k];
-        link_YY.train_BCD_sg(lr, next_random, u);
-    }
-    pthread_exit(NULL);
-}
 
 void TrainModel() {
     long a;
@@ -109,7 +118,6 @@ void TrainModel() {
     
     sprintf(file_name, "%smention_feature.txt", file_path);
     link_MF.init(file_name, &node_M, &node_F, negative); // graph is inversed
-    // link_FM.init_transpose(file_name, &node_F, &node_M, negative); // graph is inversed
     
     sprintf(file_name, "%smention_type.txt", file_path);
     link_MY.init(file_name, &node_M, &node_Y, negative);
@@ -117,12 +125,8 @@ void TrainModel() {
     sprintf(file_name, "%sfeature_type.txt", file_path);
     link_FY.init(file_name, &node_F, &node_Y, negative);
 
-    sprintf(file_name, "%stype_type_h.txt", file_path);
-    link_YY.init(file_name, &node_Y, &node_Y, negative);
-
     for (int k = 0; k != node_M.get_num_nodes(); k++) mention_set.push_back(k);
     for (int k = 0; k != node_F.get_num_nodes(); k++) feature_set.push_back(k);
-    for (int k = 0; k != node_Y.get_num_nodes(); k++) type_set.push_back(k);
 
     gsl_rng_env_setup();
     gsl_T = gsl_rng_rand48;
@@ -131,10 +135,24 @@ void TrainModel() {
     
     clock_t start = clock();
     printf("Training process:\n");
+    // if (mode == 'm')
+    // {
+    //     for (iter = 0; iter != iters; iter++)
+    //     {
+    //         std::random_shuffle(mention_set.begin(), mention_set.end());
+    //         // lr = starting_lr * (1 - iter / (real)(iters));
+            
+    //         for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_miniBatch_thread, (void *)a);
+    //         for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
+    //     }
+    // }
     if (mode == 'b')
     {
         for (iter = 0; iter != iters; iter++)
         {
+            // std::random_shuffle(mention_set.begin(), mention_set.end());
+            // std::random_shuffle(feature_set.begin(), mention_set.end());
+
             //// Varying learning rate
             // lr = starting_lr * (1 - iter / (real)(iters));
 
@@ -142,14 +160,15 @@ void TrainModel() {
             for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread, (void *)a);
             for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
 
-            //// update FY, YY networks
+            //// update FY networks
             for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread_F, (void *)a);
-            for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
-            for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread_Y, (void *)a);
             for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
 
             //// SG model node updating
             node_F.update_vec();
+            // node_M.update_vec();
+            // node_Y.update_vec();
+
             //// PLE model node updating
             node_M.update_vec_ple(lr, alpha);
             node_Y.update_vec_ple(lr, alpha);
@@ -159,14 +178,13 @@ void TrainModel() {
     clock_t finish = clock();
     printf("Total time: %lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
     
-    sprintf(file_name, "%semb_hple_corrH_mention.txt", output_path);
+    sprintf(file_name, "%semb_hple_noCorr_mention.txt", output_path);
     node_M.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_corrH_feature.txt", output_path);
+    sprintf(file_name, "%semb_hple_noCorr_feature.txt", output_path);
     node_F.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_corrH_type.txt", output_path);
+    sprintf(file_name, "%semb_hple_noCorr_type.txt", output_path);
     node_Y.output(file_name, binary);
 }
-
 
 int ArgPos(char *str, int argc, char **argv) {
     int a;
@@ -216,8 +234,8 @@ int main(int argc, char **argv) {
     if ((i = ArgPos((char *)"-lr", argc, argv)) > 0) starting_lr = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-alpha", argc, argv)) > 0) alpha = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
-    sprintf(file_path, "data/%s/%s/no/", data, task);
-    sprintf(output_path, "data/%s/%s/no/Results/", data, task);
+    sprintf(file_path, "Intermediate/%s/", data);
+    sprintf(output_path, "Results/%s/", data);
     lr = starting_lr;
     TrainModel();
     return 0;

@@ -54,15 +54,15 @@ def predict(model, test_x, type_hierarchy):
 
 if __name__ == "__main__":
     if len(sys.argv) != 7:
-        print 'Usage: Classifier.py -CLASSIFIER -INDIR(FIGER/improve_typing/no) -METHOD(pte) -EMB_METHOD(bipartite) -LEARNING_RATE(0.003) -MAX_ITER(1)'
+        print 'Usage: Classifier.py -CLASSIFIER -DATA(BBN) -METHOD(pte) -EMB_METHOD(bipartite) -LEARNING_RATE(0.003) -MAX_ITER(20)'
         exit(-1)
     model_name = sys.argv[1]
-    indir = '/srv/data/wenqihe/' + sys.argv[2]
+    indir = 'Intermediate/' + sys.argv[2]
     train_x_file = indir + '/mention_feature.txt'
     train_y_file = indir + '/mention_type.txt'
     test_x_file = indir + '/mention_feature_test.txt'
-    test_y_file = indir + '/Results/prediction_null_null_' + model_name + '.txt'
-    hierarchy_file = indir + '/figer_supertype.txt'
+    test_y_file = 'Results/prediction_null_null_' + model_name + '.txt'
+    hierarchy_file = indir + '/supertype.txt'
     feature_file = indir + '/feature.txt'
     type_file = indir + '/type.txt'
     _method = sys.argv[3]
@@ -75,8 +75,8 @@ if __name__ == "__main__":
     print 'Feature: %d, type: %d' %(_feature_size, _label_size)
 
     if _method != 'null' and _emb_method != 'null':
-        train_y_file = indir + '/Results/mention_type_' + _method + '_' + _emb_method + '.txt'
-        test_y_file = indir + '/Results/prediction_' + _method + '_' + _emb_method + '_' + model_name  + '.txt'
+        train_y_file = 'Results/mention_type_' + _method + '_' + _emb_method + '.txt'
+        test_y_file = 'Results/prediction_' + _method + '_' + _emb_method + '_' + model_name  + '.txt'
 
     train_x = load_as_list(train_x_file)
     train_y = load_as_list(train_y_file)
