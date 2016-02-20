@@ -3,19 +3,9 @@ __author__ = 'xiang'
 import sys
 import os
 from collections import defaultdict
-# import numpy as np
 from math import sqrt
 import operator
 
-# def sim_func(v1, v2, _MODE):
-#     val = 0.0
-#     if _MODE == 'dot':
-#         ### dot product:
-#         val = np.dot(v1, v2)
-#     elif _MODE == 'cosine':
-#         ### cosine sim:
-#         val = np.dot(v1, v2)/sqrt(np.dot(v1, v1))/sqrt(np.dot(v2, v2))
-#     return val
 
 def sim_func(v1, v2, _MODE):
     val = 0.0
@@ -421,100 +411,36 @@ class Predicter_useMentionEmb:
         return labels
 
 
-
-def predict(indir, _method, _task, _emb_mode, _predict_mode, _sim_func, _threshold):
-    if 'reduce_label_noise' in _task and _emb_mode == 'bipartite':
-        predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_type.txt'), \
-            network_mention_feature=os.path.join(indir + '/mention_feature_test.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
-            sim_func=_sim_func)
-
-    elif 'reduce_label_noise' in _task and _emb_mode == 'hete_mention':
-        predicter = Predicter_useMentionEmb(\
-            embs_mention=os.path.join(indir + '/Results/emb_' + _method + '_mention.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_type.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
-            sim_func=_sim_func)
-
-    elif 'reduce_label_noise' in _task and _emb_mode == 'hete_feature':
-        predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_type.txt'), \
-            network_mention_feature=os.path.join(indir + '/mention_feature_test.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
-            sim_func=_sim_func)
-
-    # directly do typing
-    elif 'typing' in _task and _emb_mode == 'bipartite':
-        predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_type.txt'), \
-            network_mention_feature=os.path.join(indir + '/mention_feature_test.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
-            sim_func=_sim_func)
-
-    elif 'typing' in _task and _emb_mode == 'hete_feature':
-        predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_type.txt'), \
-            network_mention_feature=os.path.join(indir + '/mention_feature_test.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
-            sim_func=_sim_func)
-        
-    else:
-        print 'wrong parameter!'
-        exit(-1)
-
-
-    with open(os.path.join(indir + '/Results/prediction_' + _method + '_' + _emb_mode + '_' +_predict_mode + '.txt'), 'w') as g:
-        mentions_ids = load_mentionids(os.path.join(indir + '/mention_type_test.txt'))
-        candidates = load_candidates(os.path.join(indir + '/mention_type.txt'), mentions_ids)
-        for mention_id in candidates:
-            candidate = candidates[mention_id]
-            if _predict_mode == 'maximum':
-                labels = predicter.predict_types_for_mention_maximum(mention_id, _threshold, candidate)
-            elif _predict_mode == 'topdown':
-                labels = predicter.predict_types_for_mention_topDown(mention_id, _threshold, candidate)
-            elif _predict_mode == 'topk':
-                labels = predicter.predict_types_for_mention_topk(mention_id, _threshold, candidate)
-            for l in labels:
-                g.write(str(mention_id)+'\t'+str(l)+'\t'+'1\n')
-        g.close()
-    print len(mentions_ids), 'mentions predicted.'
-
-
-def clean(indir, _method, _emb_mode, _predict_mode, _sim_func, _threshold):
+def clean(indir, outdir, _method, _emb_mode, _predict_mode, _sim_func, _threshold):
     # Clean the training mentions' labels
     if _emb_mode == 'bipartite':
         predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_bipartite_type.txt'), \
+            embs_feature=os.path.join(outdir + '/emb_' + _method + '_bipartite_feature.txt'), \
+            embs_type=os.path.join(outdir + '/emb_' + _method + '_bipartite_type.txt'), \
             network_mention_feature=os.path.join(indir + '/mention_feature.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
+            supertypefile=os.path.join(indir + '/supertype.txt'), \
             sim_func=_sim_func)
 
     elif _emb_mode == 'hete_mention':
         predicter = Predicter_useMentionEmb(\
-            embs_mention=os.path.join(indir + '/Results/emb_' + _method + '_mention.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_type.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
+            embs_mention=os.path.join(outdir + '/emb_' + _method + '_mention.txt'), \
+            embs_type=os.path.join(outdir + '/emb_' + _method + '_type.txt'), \
+            supertypefile=os.path.join(indir + '/supertype.txt'), \
             sim_func=_sim_func)
 
     elif _emb_mode == 'hete_feature':        
         predicter = Predicter_useFeatureEmb(\
-            embs_feature=os.path.join(indir + '/Results/emb_' + _method + '_feature.txt'), \
-            embs_type=os.path.join(indir + '/Results/emb_' + _method + '_type.txt'), \
+            embs_feature=os.path.join(outdir + '/emb_' + _method + '_feature.txt'), \
+            embs_type=os.path.join(outdir + '/emb_' + _method + '_type.txt'), \
             network_mention_feature=os.path.join(indir + '/mention_feature.txt'), \
-            supertypefile=os.path.join(indir + '/figer_supertype.txt'), \
+            supertypefile=os.path.join(indir + '/supertype.txt'), \
             sim_func=_sim_func)
 
     else:
         print 'wrong parameter!'
         exit(-1)
 
-    with open(os.path.join(indir + '/Results/mention_type_' + _method + '_' + _emb_mode + '.txt'), 'w') as g:
+    with open(os.path.join(outdir + '/mention_type_' + _method + '_' + _emb_mode + '.txt'), 'w') as g:
         mentions_ids = load_mentionids(os.path.join(indir + '/mention_type.txt'))
         candidates = load_candidates(os.path.join(indir + '/mention_type.txt'), mentions_ids)
         cnt = 0
@@ -565,25 +491,20 @@ def load_candidates(filename, indexes):
 
 if __name__ == "__main__":
     
-    if len(sys.argv) != 9:
-        print 'Usage: emb_prediction.py -DATA(FIGER) -TASK(reduce_label_noise)  \
-         -MODE(predict) -METHOD(pte) -EMB_MODE(hete_feature) -PREDICT_MODE(topdown) -SIM(cosine/dot) -THRESHOLD'
+    if len(sys.argv) != 7:
+        print 'Usage: emb_prediction.py -DATA(FIGER) -METHOD(pte) -EMB_MODE(hete_feature) -PREDICT_MODE(topdown) -SIM(cosine/dot) -THRESHOLD'
         exit(-1)
 
     # do prediction here
     _data = sys.argv[1]
-    _task = sys.argv[2]
-    _mode = sys.argv[3] # prediction on test data / clean training data
-    _method = sys.argv[4]
-    _emb_mode = sys.argv[5] # reduce_label_noise / typing
-    _predict_mode = sys.argv[6] # topdown / maximum manner
-    _sim_func = sys.argv[7]
-    _threshold = float(sys.argv[8])
+    _method = sys.argv[2]
+    _emb_mode = sys.argv[3] # reduce_label_noise / typing
+    _predict_mode = sys.argv[4] # topdown / maximum manner
+    _sim_func = sys.argv[5]
+    _threshold = float(sys.argv[6])
 
-    indir = 'data/' + _data + '/' + _task
-    if _mode == 'predict':
-        predict(indir, _method, _task, _emb_mode, _predict_mode, _sim_func, _threshold)
-    elif _mode == 'clean':
-        clean(indir, _method, _emb_mode, _predict_mode, _sim_func, _threshold)
+    indir = 'Intermediate/' + _data
+    outdir = 'Results/' + _data
+    clean(indir, outdir, _method, _emb_mode, _predict_mode, _sim_func, _threshold)
 
 

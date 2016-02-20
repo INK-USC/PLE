@@ -20,7 +20,7 @@ $ sudo apt-get install python
 
 ## Dataset
 Three datasets used in the paper could be downloaded here:
-   * FIGER]
+   * FIGER
    * OntoNotes
    * BBN
 
