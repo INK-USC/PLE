@@ -20,9 +20,9 @@ $ sudo apt-get install python
 
 ## Dataset
 Three datasets used in the paper could be downloaded here:
-   * FIGER
-   * OntoNotes
-   * BBN
+   * [FIGER](https://drive.google.com/file/d/0B2ke42d0kYFfVC1fazdKYnVhYWs/view?usp=sharing)
+   * [OntoNotes](https://drive.google.com/file/d/0B2ke42d0kYFfN1ZSVExLNlYwX1E/view?usp=sharing)
+   * [BBN](https://drive.google.com/file/d/0B2ke42d0kYFfejhEVDI3OWprSkU/view?usp=sharing)
 
 Please put the data files in corresponding subdirectories in Data/.
 
