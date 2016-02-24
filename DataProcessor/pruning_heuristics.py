@@ -209,9 +209,3 @@ def prune(indir, outdir, strategy, feature_number, type_number):
                 temp = len(fm[i]&tm[j])
                 if temp > 0:
                     g.write(str(i)+'\t'+str(j)+'\t'+str(temp)+'\n')
-
-if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print('Usage: prune_heuristics.py -INDIR -OUTDIR -STRATEGY -FEATURENUMBER -TYPENUMBER')
-        sys.exit(-1)
-    prune(sys.argv[1],sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5]))

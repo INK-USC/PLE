@@ -67,6 +67,25 @@ def load_as_dict(filename):
         return indexes, data
 
 
+def load_map(filename, mode):
+    with open(filename) as f:
+        mapping = {}
+        for line in f:
+            seg = line.strip('\r\n').split('\t')
+            if mode == 'mention':
+                mapping[seg[0]] = seg[1]
+            elif mode == 'label':
+                mapping[seg[1]] = seg[0]
+        return mapping
+
+def load_mention_type(filename):
+    with open(filename) as f:
+        mapping = defaultdict(set)
+        for line in f:
+            seg = line.strip('\r\n').split('\t')
+            mapping[seg[0]].add(seg[1])
+        return mapping
+
 def file_len(filename):
     with open(filename) as f:
         for i, l in enumerate(f):
