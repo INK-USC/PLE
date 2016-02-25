@@ -9,7 +9,7 @@ sys.setdefaultencoding('utf8')
 
 def distribution(indir):
     with open(indir+'/train_y.txt') as f, \
-         open(indir+'distribution_per_doc.txt','w') as g:
+         open(indir+'/distribution_per_doc.txt','w') as g:
         d = defaultdict(dict)
         for line in f:
             sent = line.strip('\r\n').split('\t')

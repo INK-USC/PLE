@@ -1,5 +1,6 @@
 __author__ = 'wenqihe'
 import sys
+import json
 from DataIO import *
 from Perceptron import MultilabelPerceptron
 from HierarchySVM import HierarchySVM
@@ -144,7 +145,7 @@ if __name__ == "__main__":
     mention_mapping = load_map(mention_file, 'mention')
     label_mapping = load_map(type_file, 'label')
     clean_mentions = load_mention_type(test_y_file)
-    casestudy(json_file, output)
+    casestudy(json_file, output, mention_mapping, label_mapping, clean_mentions)
 
 
 

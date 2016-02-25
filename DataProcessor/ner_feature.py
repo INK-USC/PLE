@@ -1,6 +1,6 @@
 __author__ = 'wenqihe'
 
-from feature import *
+from Feature import *
 import sys
 from mention_reader import MentionReader
 reload(sys)

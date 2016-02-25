@@ -1,4 +1,4 @@
- __author__ = 'wenqihe'
+__author__ = 'wenqihe'
 
 import os
 import operator

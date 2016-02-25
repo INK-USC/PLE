@@ -1,5 +1,5 @@
 __author__ = 'wenqihe'
-
+from collections import defaultdict
 
 def load_as_list(filename):
     """

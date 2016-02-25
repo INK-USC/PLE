@@ -68,7 +68,6 @@ def parse(filename, output):
                 sent['dep'] = new_dep
                 sent['mentions'] = mentions
                 g.write(json.dumps(sent)+'\n')
-        print count
 
 
 def find_index(sen_split, word_split):
