@@ -498,7 +498,7 @@ if __name__ == "__main__":
     # do prediction here
     _data = sys.argv[1]
     _method = sys.argv[2]
-    _emb_mode = sys.argv[3] # reduce_label_noise / typing
+    _emb_mode = sys.argv[3] # hete_feature
     _predict_mode = sys.argv[4] # topdown / maximum manner
     _sim_func = sys.argv[5]
     _threshold = float(sys.argv[6])

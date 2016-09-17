@@ -2,3 +2,10 @@
 *.pyc
 *.DS_Store
 *.o
+*.zip
+DataProcessor/stanford-corenlp-python/
+Intermediate/*
+Data/BBN/brown
+Data/BBN/train.json
+Data/BBN/test.json
+Data/BBN/type_entities.txt

@@ -41,33 +41,37 @@ def parse(filename, output):
         for line in f:
             sent = json.loads(line.strip('\r\n'))
             tokens = sent['tokens']
-            tuples = parser.parse(' '.join(tokens))
-            if len(tuples) == 1 and tuples[0][0] == tokens:
-                sent['pos'] = tuples[0][1]
-                sent['dep'] = tuples[0][2]
-                g.write(json.dumps(sent)+'\n')
-            else:
-                new_tokens = tuples[0][0]
-                new_pos = tuples[0][1]
-                new_dep = tuples[0][2]
-                for i in xrange(1, len(tuples)):
-                    new_tokens.extend(tuples[i][0])
-                    new_pos.extend(tuples[i][1])
-                    new_dep.extend(tuples[i][2])
-                mentions = []
-                for m in sent['mentions']:
-                    mention = tokens[m['start']:m['end']]
-                    if len(mention) ==0:
-                        count+=1
-                        continue
-                    index1, index2 = find_index(new_tokens, mention)
-                    if index1 != -1 and index2 != -1:
-                        mentions.append({'start':index1, 'end':index2, 'labels':m['labels']})
-                sent['tokens'] = new_tokens
-                sent['pos'] = new_pos
-                sent['dep'] = new_dep
-                sent['mentions'] = mentions
-                g.write(json.dumps(sent)+'\n')
+            try:
+                tuples = parser.parse(' '.join(tokens))
+                if len(tuples) == 1 and tuples[0][0] == tokens:
+                    sent['pos'] = tuples[0][1]
+                    sent['dep'] = tuples[0][2]
+                    g.write(json.dumps(sent)+'\n')
+                else:
+                    new_tokens = tuples[0][0]
+                    new_pos = tuples[0][1]
+                    new_dep = tuples[0][2]
+                    for i in xrange(1, len(tuples)):
+                        new_tokens.extend(tuples[i][0])
+                        new_pos.extend(tuples[i][1])
+                        new_dep.extend(tuples[i][2])
+                    mentions = []
+                    for m in sent['mentions']:
+                        mention = tokens[m['start']:m['end']]
+                        if len(mention) ==0:
+                            count+=1
+                            continue
+                        index1, index2 = find_index(new_tokens, mention)
+                        if index1 != -1 and index2 != -1:
+                            mentions.append({'start':index1, 'end':index2, 'labels':m['labels']})
+                    sent['tokens'] = new_tokens
+                    sent['pos'] = new_pos
+                    sent['dep'] = new_dep
+                    sent['mentions'] = mentions
+                    g.write(json.dumps(sent)+'\n')
+            except Exception as e:
+                    print 'fileid:', sent['fileid'], 'senid:', sent['senid']
+                    print e
 
 
 def find_index(sen_split, word_split):
