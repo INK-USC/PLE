@@ -18,6 +18,8 @@ $ sudo apt-get install python
 
 * [eigen 3.2.5](eigen.tuxfamily.org/). Please put the library in folder Model/ple/.
 
+* cd /Model/ple and "make"
+
 ## Dataset
 Three datasets used in the paper could be downloaded here:
    * [Wiki](https://drive.google.com/file/d/0B2ke42d0kYFfVC1fazdKYnVhYWs/view?usp=sharing)
