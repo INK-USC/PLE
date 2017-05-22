@@ -10,10 +10,6 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 
 * python 2.7
 
-```
-$ sudo apt-get install python
-```
-
 * [stanford coreNLP 3.7.0](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library in folder `PLE/DataProcessor/`.
 
 ```
