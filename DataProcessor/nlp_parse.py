@@ -39,11 +39,7 @@ def parse(filename, output):
     with open(filename) as f, open(output, 'w') as g:
         parser = NLPParser()
         count=0
-        sct=0
         for line in f:
-            sct += 1
-            if sct%100 == 0:
-                print sct
             sent = json.loads(line.strip('\r\n'))
             tokens = sent['tokens']
             try:
