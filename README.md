@@ -21,6 +21,7 @@ $ cd stanza
 $ pip install -e .
 $ wget http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip
 $ unzip stanford-corenlp-full-2016-10-31.zip
+$ rm stanford-corenlp-full-2016-10-31.zip
 ```
 * [eigen 3.2.5](http://bitbucket.org/eigen/eigen/get/3.2.5.tar.bz2) (already included). 
 
