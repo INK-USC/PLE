@@ -13,7 +13,7 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 ```
 $ sudo pip install pexpect unidecode
 ```
-Setup * [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).
+Setup [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).
 ```
 $ cd DataProcessor/
 $ git clone git@github.com:stanfordnlp/stanza.git
