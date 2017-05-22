@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -lm -pthread -O2 -march=native -Wall -funroll-loops -Wno-unused-result
 LFLAGS = -lgsl -lm -lgslcblas
-INCLUDES = -I/usr/local/include -I./eigen-3.2.5
+INCLUDES = -I/usr/local/include -I../eigen-3.2.5
 LIBS = -L/usr/local/lib
 
 hple: ransampl.o hplelib.o hple.o

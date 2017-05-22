@@ -139,11 +139,11 @@ void TrainModel() {
     clock_t finish = clock();
     printf("Total time: %lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
     
-    sprintf(file_name, "%semb_hple_corrKB_mention.txt", output_path);
+    sprintf(file_name, "%semb_hple_mention.txt", output_path);
     node_M.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_corrKB_feature.txt", output_path);
+    sprintf(file_name, "%semb_hple_feature.txt", output_path);
     node_F.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_corrKB_type.txt", output_path);
+    sprintf(file_name, "%semb_hple_type.txt", output_path);
     node_Y.output(file_name, binary);
 }
 
@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
         printf("Options:\n");
         printf("Parameters for training:\n");
         printf("\t-data <path>\n");
-        printf("\t\tData (FIGER / BBN)\n");
+        printf("\t\tData (BBN/Wiki/ontonotes)\n");
         printf("\t-task <path>\n");
         printf("\t\tTask (reduce_label_noise / typing)\n");
         printf("\t-binary <int>\n");

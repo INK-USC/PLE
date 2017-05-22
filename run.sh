@@ -8,24 +8,22 @@ mkdir -pv $Intermediate
 mkdir -pv $Outdir
 
 ### Generate features
-echo 'Step 1 Generate Features'
+echo 'Step 1 Feature Generation'
 python DataProcessor/feature_generation.py $Data
 echo ' '
 
 ### Train PLE
-echo 'Step 2 Train PLE'
-Model/ple/hple-corrKB -data $Data -mode bcd -size 50 -negatives 10 -iters 50 -threads 20 -lr 0.6 -alpha 0.0001
+echo 'Step 2 Heterogeneous Partial-Label Embedding'
+Model/ple/hple -data $Data -mode bcd -size 50 -negatives 10 -iters 50 -threads 20 -lr 0.6 -alpha 0.0001
 echo ' '
 
 ### Clean training labels
-echo 'Step 3 Clean training labels'
-python Evaluation/emb_prediction.py $Data hple_corrKB hete_feature topdown dot -100
+echo 'Step 3 Label Noise Reduction with learned embeddings'
+python Evaluation/emb_prediction.py $Data hple hete_feature topdown dot -100
 echo ' '
 
-### Use denoised training set to train a type Classifier
+### Train a type Classifier over the de-noised training data 
 echo 'Step 4 Build a type classifier'
-python Classifier/Classifier.py perceptron $Data hple_corrKB hete_feature 0.003 20
-
-
+python Classifier/Classifier.py perceptron $Data hple hete_feature 0.003 20
 
 

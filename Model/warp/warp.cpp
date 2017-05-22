@@ -6,8 +6,6 @@
 //  Copyright © 2016 wenqihe. All rights reserved.
 //
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
