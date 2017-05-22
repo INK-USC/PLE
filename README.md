@@ -35,18 +35,18 @@ We pre-processed three public datasets (train/test sets) to our JSON format. We 
 - Please put the data files in the corresponding subdirectories under `PLE/Data/`.
 
 
+## Makefile
+We have included compilied binaries. If you need to re-compile `hple.cpp` under your own g++ environment
+```
+$ cd PLE/Model/ple/; make
+```
+
 ## Default Run
 Run PLE for the task of Reduce Label Noise on the BBN dataset
 
 ```
 $ java -mx4g -cp "DataProcessor/stanford-corenlp-full-2016-10-31/*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer
 $ ./run.sh  
-```
-
-## Makefile
-If you need to re-compile `hple.cpp` under your own g++ environment
-```
-$ cd PLE/Model/ple/; make
 ```
 
 ## Parameters - run.sh
