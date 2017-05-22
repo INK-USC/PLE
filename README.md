@@ -1,6 +1,6 @@
 ## PLE
 
-Source code for SIGKDD'16 paper *[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://xren7.web.engr.illinois.edu/kdd16-LNR.pdf)*. 
+Source code and data for SIGKDD'16 paper *[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://xren7.web.engr.illinois.edu/kdd16-LNR.pdf)*. 
 
 Given a text corpus with entity mentions *detected* and *heuristically labeled* by distant supervision, this code performs (1) *label noise reduction* over distant supervision, and (2) learning type classifiers over *de-noised* training data.
 
