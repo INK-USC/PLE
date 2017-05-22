@@ -9,7 +9,7 @@
 
 char data[MAX_STRING], task[MAX_STRING];
 char file_path[MAX_STRING], output_path[MAX_STRING], mode;
-int binary = 0, num_threads = 1, vector_size = 100, negative = 5, iters = 10, iter;
+int binary = 0, num_threads = 1, vector_size = 50, negative = 5, iters = 10, iter;
 long long node_count_actual;
 std::vector<int> mention_set, feature_set, type_set;
 real starting_lr = 0.025, alpha = 0.0001;
@@ -20,7 +20,7 @@ gsl_rng * gsl_r;
 ransampl_ws* ws;
 
 line_node node_M, node_F, node_Y;
-line_link link_MF, link_MY, link_FY, link_YY_KB, link_YY_H;
+line_link link_MF, link_MY, link_FY, link_YY;
 
 void *train_BCD_thread(void *id)
 {
@@ -41,6 +41,7 @@ void *train_BCD_thread(void *id)
         }
         int u = mention_set[k];
         link_MF.train_BCD_sg(lr, next_random, u);
+        // link_MY.train_BCD_sg(lr, next_random, u);
         link_MY.train_BCD_ple(lr, alpha, next_random, u);
     }
     pthread_exit(NULL);
@@ -76,8 +77,7 @@ void *train_BCD_thread_Y(void *id)
     for (int k = begin; k != end; k++, T++)
     {
         int u = type_set[k];
-        link_YY_KB.train_BCD_sg(lr, next_random, u);
-        link_YY_H.train_BCD_sg(lr, next_random, u);
+        link_YY.train_BCD_sg(lr, next_random, u);
     }
     pthread_exit(NULL);
 }
@@ -106,10 +106,7 @@ void TrainModel() {
     link_FY.init(file_name, &node_F, &node_Y, negative);
 
     sprintf(file_name, "%stype_type_kb.txt", file_path);
-    link_YY_KB.init(file_name, &node_Y, &node_Y, negative);
-
-    sprintf(file_name, "%stype_type_h.txt", file_path);
-    link_YY_H.init(file_name, &node_Y, &node_Y, negative);
+    link_YY.init(file_name, &node_Y, &node_Y, negative);
 
     for (int k = 0; k != node_M.get_num_nodes(); k++) mention_set.push_back(k);
     for (int k = 0; k != node_F.get_num_nodes(); k++) feature_set.push_back(k);
@@ -126,22 +123,14 @@ void TrainModel() {
     {
         for (iter = 0; iter != iters; iter++)
         {
-            //// Varying learning rate
-            // lr = starting_lr * (1 - iter / (real)(iters));
-
-            //// update MF + MY network
             for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread, (void *)a);
             for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
-
-            //// update FY, YY networks
             for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread_F, (void *)a);
             for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
             for (a = 0; a < num_threads; a++) pthread_create(&pt[a], NULL, train_BCD_thread_Y, (void *)a);
             for (a = 0; a < num_threads; a++) pthread_join(pt[a], NULL);
 
-            //// SG model node updating
             node_F.update_vec();
-            //// PLE model node updating
             node_M.update_vec_ple(lr, alpha);
             node_Y.update_vec_ple(lr, alpha);
         }
@@ -150,11 +139,11 @@ void TrainModel() {
     clock_t finish = clock();
     printf("Total time: %lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
     
-    sprintf(file_name, "%semb_hple_mention.txt", output_path);
+    sprintf(file_name, "%semb_hple_corrKB_mention.txt", output_path);
     node_M.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_feature.txt", output_path);
+    sprintf(file_name, "%semb_hple_corrKB_feature.txt", output_path);
     node_F.output(file_name, binary);
-    sprintf(file_name, "%semb_hple_type.txt", output_path);
+    sprintf(file_name, "%semb_hple_corrKB_type.txt", output_path);
     node_Y.output(file_name, binary);
 }
 
@@ -207,8 +196,8 @@ int main(int argc, char **argv) {
     if ((i = ArgPos((char *)"-lr", argc, argv)) > 0) starting_lr = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-alpha", argc, argv)) > 0) alpha = atof(argv[i + 1]);
     if ((i = ArgPos((char *)"-threads", argc, argv)) > 0) num_threads = atoi(argv[i + 1]);
-    sprintf(file_path, "/srv/data/wenqihe/%s/%s/", data, task);
-    sprintf(output_path, "/srv/data/wenqihe/%s/%s/Results/", data, task);
+    sprintf(file_path, "Intermediate/%s/", data);
+    sprintf(output_path, "Results/%s/", data);
     lr = starting_lr;
     TrainModel();
     return 0;
