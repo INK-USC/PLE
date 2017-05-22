@@ -1,32 +1,28 @@
 ## PLE
-Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding
 
-## Publication
+Source code for SIGKDD'16 paper *[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://xren7.web.engr.illinois.edu/kdd16-LNR.pdf)*. 
 
-* Xiang Ren\*, Wenqi He, Meng Qu, Clare R. Voss, Heng Ji, Jiawei Han, "**[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://web.engr.illinois.edu/~xren7/kdd16-LNR.pdf)**”, SIGKDD 2016.
+Given a text corpus with entity mentions *detected* and *heuristically labeled* by distant supervision, this code performs (1) *label noise reduction* over distant supervision, and (2) learning type classifiers over *de-noised* training data.
 
-## Requirements
+An end-to-end tool (corpus to typed entities) is under development. Please keep track of our updates.
 
-We will take Ubuntu for example.
+## Dependencies
 
 * python 2.7
-```
-$ sudo apt-get install python
-```
 
-* [stanford coreNLP 3.7.0](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza). Please put the library in folder DataProcessor/.
+* [stanford coreNLP 3.7.0](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library in folder `PLE/DataProcessor/`.
 
-* [eigen 3.2.5](eigen.tuxfamily.org/). Please put the library in folder Model/ple/.
+* [eigen 3.2.5](http://bitbucket.org/eigen/eigen/get/3.2.5.tar.bz2) (already included). 
 
-* cd /Model/ple and "make"
 
-## Dataset
+## Data
 Three datasets used in the paper could be downloaded here:
    * [Wiki](https://drive.google.com/file/d/0B2ke42d0kYFfVC1fazdKYnVhYWs/view?usp=sharing)
    * [OntoNotes](https://drive.google.com/file/d/0B2ke42d0kYFfN1ZSVExLNlYwX1E/view?usp=sharing)
    * [BBN](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing)
 
-Please put the data files in corresponding subdirectories in Data/.
+Please put the data files in the corresponding subdirectories under `PLE/Data/`.
+
 
 ## Default Run
 Run PLE for the task of Reduce Label Noise on the BBN dataset
@@ -36,9 +32,27 @@ $ java -mx4g -cp "DataProcessor/stanford-corenlp-full-2016-10-31/*" edu.stanford
 $ ./run.sh  
 ```
 
+## Makefile
+If you need to re-compile `hple.cpp` under your own g++ environment
+```
+$ cd PLE/Model/ple/; make
+```
+
 ## Parameters - run.sh
 Dataset to run on.
 ```
 Data="BBN"
 ```
 
+## Reference
+Please cite the following paper if you found the codes/datasets useful:
+```
+@inproceedings{ren2016label,
+  title={Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding},
+  author={Ren, Xiang and He, Wenqi and Qu, Meng and Voss, Clare R and Ji, Heng and Han, Jiawei},
+  booktitle={Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages={1825--1834},
+  year={2016},
+  organization={ACM}
+}
+```
