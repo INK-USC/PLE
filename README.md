@@ -9,12 +9,14 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 ## Dependencies
 
 * python 2.7, g++
-
+* pexpect unidecode
+```
+$ sudo pip install pexpect unidecode
+```
 * [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library under `PLE/DataProcessor/`.
 
 ```
 $ cd DataProcessor/
-$ sudo pip install pexpect unidecode
 $ git clone git@github.com:stanfordnlp/stanza.git
 $ cd stanza
 $ pip install -e .
