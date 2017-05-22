@@ -8,9 +8,9 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 
 ## Dependencies
 
-* python 2.7
+* python 2.7, g++
 
-* [stanford coreNLP 3.7.0](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library in folder `PLE/DataProcessor/`.
+* [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library under `PLE/DataProcessor/`.
 
 ```
 $ cd DataProcessor/
@@ -21,15 +21,14 @@ $ pip install -e .
 $ wget http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip
 $ unzip stanford-corenlp-full-2016-10-31.zip
 ```
-
 * [eigen 3.2.5](http://bitbucket.org/eigen/eigen/get/3.2.5.tar.bz2) (already included). 
 
 
 ## Data
-Three datasets used in the paper could be downloaded here:
-   * [Wiki](https://drive.google.com/file/d/0B2ke42d0kYFfVC1fazdKYnVhYWs/view?usp=sharing)
-   * [OntoNotes](https://drive.google.com/file/d/0B2ke42d0kYFfN1ZSVExLNlYwX1E/view?usp=sharing)
-   * [BBN](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing)
+We pre-processed three public datasets to our JSON format, and provide the download links here:
+   * **Wiki** ([Ling & Weld, 2012](http://xiaoling.github.io/pubs/ling-aaai12.pdf)): 1.5M sentences sampled from 780k Wikipedia articles ([download](https://drive.google.com/file/d/0B2ke42d0kYFfVC1fazdKYnVhYWs/view?usp=sharing))
+   * **OntoNotes** ([Weischedel et al., 2011](https://catalog.ldc.upenn.edu/ldc2013t19)): ([download](https://drive.google.com/file/d/0B2ke42d0kYFfN1ZSVExLNlYwX1E/view?usp=sharing))
+   * **BBN** ([Weischedel et al., 2005](https://catalog.ldc.upenn.edu/ldc2005t33)): ([download](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing))
 
 Please put the data files in the corresponding subdirectories under `PLE/Data/`.
 
