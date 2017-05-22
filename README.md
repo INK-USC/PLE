@@ -10,7 +10,21 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 
 * python 2.7
 
+```
+$ sudo apt-get install python
+```
+
 * [stanford coreNLP 3.7.0](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library in folder `PLE/DataProcessor/`.
+
+```
+$ cd DataProcessor/
+$ sudo pip install pexpect unidecode
+$ git clone git@github.com:stanfordnlp/stanza.git
+$ cd stanza
+$ pip install -e .
+$ wget http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip
+$ unzip stanford-corenlp-full-2016-10-31.zip
+```
 
 * [eigen 3.2.5](http://bitbucket.org/eigen/eigen/get/3.2.5.tar.bz2) (already included). 
 
