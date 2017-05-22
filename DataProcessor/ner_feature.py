@@ -1,6 +1,6 @@
 __author__ = 'wenqihe'
 
-from feature import *
+from Feature import *
 import sys
 from mention_reader import MentionReader
 reload(sys)
@@ -118,7 +118,7 @@ def pipeline_test(json_file, brown_file, featurefile, labelfile, outdir):
 
     print 'start test feature generation'
     while reader.has_next():
-            
+
         if count%1000 == 0:
             print count
         sentence = reader.next()
