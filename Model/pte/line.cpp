@@ -77,9 +77,9 @@ void TrainModel() {
     clock_t finish = clock();
     printf("Total time: %lf\n", (double)(finish - start) / CLOCKS_PER_SEC);
     
-    sprintf(file_name, "%semb_pte_bipartite_feature.txt", output_path);
+    sprintf(file_name, "%semb_line_feature.txt", output_path);
     node_F.output(file_name, binary);
-    sprintf(file_name, "%semb_pte_bipartite_type.txt", output_path);
+    sprintf(file_name, "%semb_line_type.txt", output_path);
     node_Y.output(file_name, binary);
 }
 
