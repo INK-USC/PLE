@@ -1,6 +1,6 @@
 ## PLE
 
-Source code for SIGKDD'16 paper *[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://xren7.web.engr.illinois.edu/kdd16-LNR.pdf)*. 
+Source code and data for SIGKDD'16 paper *[Label Noise Reduction in Entity Typing by Heterogeneous Partial-Label Embedding](http://xren7.web.engr.illinois.edu/kdd16-LNR.pdf)*. 
 
 Given a text corpus with entity mentions *detected* and *heuristically labeled* by distant supervision, this code performs (1) *label noise reduction* over distant supervision, and (2) learning type classifiers over *de-noised* training data.
 
@@ -9,12 +9,14 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 ## Dependencies
 
 * python 2.7, g++
-
+* pexpect unidecode
+```
+$ sudo pip install pexpect unidecode
+```
 * [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).Place the library under `PLE/DataProcessor/`.
 
 ```
 $ cd DataProcessor/
-$ sudo pip install pexpect unidecode
 $ git clone git@github.com:stanfordnlp/stanza.git
 $ cd stanza
 $ pip install -e .
@@ -35,18 +37,18 @@ We pre-processed three public datasets (train/test sets) to our JSON format. We 
 - Please put the data files in the corresponding subdirectories under `PLE/Data/`.
 
 
+## Makefile
+We have included compilied binaries. If you need to re-compile `hple.cpp` under your own g++ environment
+```
+$ cd PLE/Model/ple/; make
+```
+
 ## Default Run
 Run PLE for the task of Reduce Label Noise on the BBN dataset
 
 ```
 $ java -mx4g -cp "DataProcessor/stanford-corenlp-full-2016-10-31/*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer
 $ ./run.sh  
-```
-
-## Makefile
-If you need to re-compile `hple.cpp` under your own g++ environment
-```
-$ cd PLE/Model/ple/; make
 ```
 
 ## Parameters - run.sh
