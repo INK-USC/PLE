@@ -9,9 +9,9 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 ## Dependencies
 
 * python 2.7, g++
-* pexpect unidecode
+* pexpect unidecode six requests protobuf
 ```
-$ pip install pexpect unidecode
+$ pip install pexpect unidecode six requests protobuf
 ```
 Setup [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).
 ```
