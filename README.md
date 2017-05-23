@@ -11,7 +11,7 @@ An end-to-end tool (corpus to typed entities) is under development. Please keep 
 * python 2.7, g++
 * pexpect unidecode
 ```
-$ sudo pip install pexpect unidecode
+$ pip install pexpect unidecode
 ```
 Setup [stanford coreNLP](http://stanfordnlp.github.io/CoreNLP/) and its [python wrapper](https://github.com/stanfordnlp/stanza).
 ```
