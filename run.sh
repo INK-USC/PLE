@@ -8,8 +8,8 @@ mkdir -pv $Intermediate
 mkdir -pv $Outdir
 
 ### Generate features
-echo 'Step 1 Feature Generation'
-python DataProcessor/feature_generation.py $Data
+echo 'Step 1 Generate Features'
+python DataProcessor/feature_generation.py $Data 10
 echo ' '
 
 ### Train PLE
