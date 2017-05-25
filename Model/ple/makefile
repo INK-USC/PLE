@@ -4,7 +4,7 @@ LFLAGS = -lgsl -lm -lgslcblas
 INCLUDES = -I/usr/local/include -I../eigen-3.2.5
 LIBS = -L/usr/local/lib
 
-hple: ransampl.o hplelib.o hple.o
+hple: ransampl.o hplelib.o
 	$(CC) $(CFLAGS) -o hple ransampl.o hplelib.o hple.o $(INCLUDES) $(LIBS) $(LFLAGS)
 
 ransampl.o: ransampl.c

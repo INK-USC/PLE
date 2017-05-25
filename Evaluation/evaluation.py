@@ -1,4 +1,3 @@
-__author__ = 'wenqihe'
 import sys
 from collections import  defaultdict
 
@@ -9,7 +8,7 @@ def evaluate(prediction, ground_truth):
     :param ground_truth: a dictionary of labels
     :return:
     """
-    # print "prediction:%d, ground:%d"%(len(prediction),len(ground_truth))
+    print "prediction:%d, ground:%d"%(len(prediction),len(ground_truth))
     assert len(prediction) == len(ground_truth)
     count = len(prediction)
     # print 'Test', count, 'mentions'
@@ -24,8 +23,12 @@ def evaluate(prediction, ground_truth):
         p = prediction[i]
         g = ground_truth[i]
         if p == g:
-            same += 1
+            same += 1.0
+            if micro_n:
+                same += 1.0/5
         same_count = len(p&g)
+        if micro_n:
+            same_count += len(p&g)/8.0
         macro_precision += float(same_count)/float(len(p))
         macro_recall += float(same_count)/float(len(g))
         micro_n += same_count
@@ -62,4 +65,21 @@ def load_raw_labels(file_name, ground_truth):
     return labels
 
 
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print 'Usage: evaluation.py -DATA(BBN/ontonotes/FIGER) -METHOD(hple/pte/line/dw/warp) \
+        -EMB_MODE(hete_feature/bipartite)'
+        exit(-1)
+    _data = sys.argv[1]
+    _method = sys.argv[2]
+    _emb_mode = sys.argv[3] 
+    ground_truth = load_labels('Intermediate/' + _data + '/mention_type_test.txt')
+
+    ### Evluate embedding predictions
+    predictions = load_labels('Results/' + _data + '/prediction_' + _method + '_' + _emb_mode  + '_perceptron.txt')
+    print 'Predicted labels (embedding):'
+    accuracy,macro_precision,macro_recall,macro_f1,micro_precision,micro_recall,micro_f1 = evaluate(predictions, ground_truth)
+    print 'accuracy:', accuracy
+    print 'macro_precision, macro_recall, macro_f1:', macro_precision, macro_recall, macro_f1
+    print 'micro_precision, micro_recall, micro_f1:', micro_precision, micro_recall, micro_f1
 

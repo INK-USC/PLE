@@ -8,22 +8,34 @@ mkdir -pv $Intermediate
 mkdir -pv $Outdir
 
 ### Generate features
-echo 'Step 1 Generate Features'
-python DataProcessor/feature_generation.py $Data 10
+echo 'Feature Generation...'
+python DataProcessor/feature_generation.py $Data 4
 echo ' '
 
 ### Train PLE
-echo 'Step 2 Heterogeneous Partial-Label Embedding'
-Model/ple/hple -data $Data -mode bcd -size 50 -negatives 10 -iters 50 -threads 20 -lr 0.6 -alpha 0.0001
+### 	- Wiki: -iters 50 -lr 0.25
+### 	- OntoNotes: -iters 50 -lr 0.3
+### 	- BBN: -iters 80 -lr 0.4
+echo 'Heterogeneous Partial-Label Embedding...'
+Model/ple/hple -data $Data -mode bcd -size 50 -negatives 10 -iters 80 -threads 30 -lr 0.4 -alpha 0.0001
 echo ' '
 
 ### Clean training labels
-echo 'Step 3 Label Noise Reduction with learned embeddings'
-python Evaluation/emb_prediction.py $Data hple hete_feature topdown dot -100
+### 	- Wiki: maximum dot -1.0
+### 	- OntoNotes: maximum dot 0.42
+### 	- BBN: maximum dot -100
+echo 'Label Noise Reduction with learned embeddings...'
+python Evaluation/emb_prediction.py $Data hple hete_feature maximum dot -100
 echo ' '
 
-### Train a type Classifier over the de-noised training data 
-echo 'Step 4 Build a type classifier'
-python Classifier/Classifier.py perceptron $Data hple hete_feature 0.003 20
+### Train a type Classifier over the de-noised training data; predict on test data
+### 	- Wiki: 0.003 1
+### 	- OntoNotes: 0.003 20
+### 	- BBN: 0.003 30
+echo 'Train classifier and predict...'
+python Classifier/Classifier.py perceptron $Data hple hete_feature 0.003 30
+echo ' '
 
-
+### Evalaute prediction results...
+echo 'Evaluate on test data...'
+python Evaluation/evaluation.py $Data hple hete_feature
