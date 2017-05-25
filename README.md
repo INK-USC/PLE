@@ -67,8 +67,9 @@ Data="BBN"
 ## Evaluation
 Evaluate prediction results (by classifier trained on de-noised data) over test data
 ```
-python Evaluation/evaluation.py -DATA(BBN/ontonotes/FIGER) -METHOD(hple/...) -EMB_MODE(hete_feature)
+python Evaluation/evaluation.py BBN hple hete_feature
 ```
+- python Evaluation/evaluation.py -DATA(BBN/ontonotes/FIGER) -METHOD(hple/...) -EMB_MODE(hete_feature)
 
 
 ## Reference
