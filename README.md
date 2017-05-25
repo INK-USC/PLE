@@ -56,17 +56,20 @@ $ ./run.sh
 ```
 - The [run.sh](https://github.com/shanzhenren/PLE/blob/master/run.sh) contains parameters for running on three datasets.
 
-## Evaluation
-Evaluate prediction results (by classifier trained on de-noised data) over test data
-```
-python Evaluation/evaluation.py -DATA(BBN/ontonotes/FIGER) -METHOD(hple/...) -EMB_MODE(hete_feature)
-```
 
 ## Parameters - run.sh
 Dataset to run on.
 ```
 Data="BBN"
 ```
+
+
+## Evaluation
+Evaluate prediction results (by classifier trained on de-noised data) over test data
+```
+python Evaluation/evaluation.py -DATA(BBN/ontonotes/FIGER) -METHOD(hple/...) -EMB_MODE(hete_feature)
+```
+
 
 ## Reference
 Please cite the following paper if you found the codes/datasets useful:
