@@ -38,7 +38,7 @@ We pre-processed three public datasets (train/test sets) to our JSON format. We 
 
 
 ## System Output
-The output on [BBN dataset](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing) can be download from [here](https://www.dropbox.com/s/tex2vnihdkfo2nm/predictionInText_hple_hete_feature_perceptron.txt?dl=0). Each line is a sentence in the test data of BBN, with entity mentions and their fine-grained entity typed identified.
+The output on [BBN dataset](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing) can be found [here](https://raw.githubusercontent.com/shanzhenren/PLE/master/Results/BBN/predictionInText_hple_hete_feature_perceptron.txt). Each line is a sentence in the test data of BBN, with entity mentions and their fine-grained entity typed identified.
 
 
 ## Makefile
