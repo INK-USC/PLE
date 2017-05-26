@@ -6,6 +6,22 @@ Given a text corpus with entity mentions *detected* and *heuristically labeled* 
 
 An end-to-end tool (corpus to typed entities) is under development. Please keep track of our updates.
 
+## Performance
+Performance of *fine-grained entity type classification* over **Wiki** ([Ling & Weld, 2012](http://xiaoling.github.io/pubs/ling-aaai12.pdf)) dataset. We applied PLE to clean training data and ran FIGER ([Ling & Weld, 2012](http://xiaoling.github.io/pubs/ling-aaai12.pdf)) and over the de-noised labeled data to train type classifiers (thus the **FIGER + PLE** is the name of our final system).
+
+Method | Accuray | Macro-F1 | Micro-F1 
+-------|-----------|--------|----
+FIGER ([Ling & Weld, 2012](http://xiaoling.github.io/pubs/ling-aaai12.pdf)) | 0.474 | 0.692 | 0.655 
+FIGER + All Filter ([Gillick et al., 2014](https://arxiv.org/pdf/1412.1820.pdf)) |0.453 | 0.648 | 0.582 
+HYENA ([Yosef et al., 2012](http://aclweb.org/anthology/C/C12/C12-2133.pdf)) | 0.288 | 0.528 | 0.506 
+WSABIE ([Yogatama et al,., 2015](http://www.cs.cmu.edu/~dyogatam/papers/yogatama+etal.acl2015short.pdf)) | 0.480 | 0.679 | 0.657 
+**FIGER + PLE** ([Ren et al., 2016](https://arxiv.org/pdf/1602.05307.pdf)) | 0.599 | 0.763 | **0.749**
+
+
+## System Output
+The output on [BBN dataset](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing) can be found [here](https://raw.githubusercontent.com/shanzhenren/PLE/master/Results/BBN/predictionInText_hple_hete_feature_perceptron.txt). Each line is a sentence in the test data of BBN, with entity mentions and their fine-grained entity typed identified.
+
+
 ## Dependencies
 
 * python 2.7, g++
@@ -35,10 +51,6 @@ We pre-processed three public datasets (train/test sets) to our JSON format. We 
 
 - `Type hierarches` for each dataset are included.
 - Please put the data files in the corresponding subdirectories under `PLE/Data/`.
-
-
-## System Output
-The output on [BBN dataset](https://drive.google.com/file/d/0B2ke42d0kYFfTEs0RGpuanRLQlE/view?usp=sharing) can be found [here](https://raw.githubusercontent.com/shanzhenren/PLE/master/Results/BBN/predictionInText_hple_hete_feature_perceptron.txt). Each line is a sentence in the test data of BBN, with entity mentions and their fine-grained entity typed identified.
 
 
 ## Makefile
