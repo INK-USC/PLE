@@ -22,7 +22,7 @@ echo ' '
 
 ### Clean training labels
 ### 	- Wiki: maximum dot -1.0
-### 	- OntoNotes: maximum dot 0.42
+### 	- OntoNotes: td dot -1
 ### 	- BBN: maximum dot -100
 echo 'Label Noise Reduction with learned embeddings...'
 python Evaluation/emb_prediction.py $Data hple hete_feature maximum dot -100
@@ -31,7 +31,7 @@ echo ' '
 ### Train a type Classifier over the de-noised training data; predict on test data
 ### 	- Wiki: 0.003 1
 ### 	- OntoNotes: 0.003 20
-### 	- BBN: 0.003 30
+### 	- BBN: 0.003 50
 echo 'Train classifier and predict...'
 python Classifier/Classifier.py perceptron $Data hple hete_feature 0.003 30
 echo ' '
