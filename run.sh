@@ -22,7 +22,7 @@ echo ' '
 
 ### Clean training labels
 ### 	- Wiki: maximum dot -1.0
-### 	- OntoNotes: td dot -1
+### 	- OntoNotes: topdown dot -1
 ### 	- BBN: maximum dot -100
 echo 'Label Noise Reduction with learned embeddings...'
 python Evaluation/emb_prediction.py $Data hple hete_feature maximum dot -100
